@@ -5,71 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>SOUTHWEST DISPATCH RELEASE</title>
 <style>
-  :root{
-    --ink:#111; --muted:#444; --accent:#0b57d0; --bg:#fff; --line:#000;
-  }
+  :root{--ink:#111;--muted:#444;--bg:#fff;--line:#000}
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{
-    margin:0;
-    background:var(--bg);
-    color:var(--ink);
-    font:15px/1.25 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  }
-  .page{
-    max-width:900px;
-    margin:28px auto;
-    padding:0 16px;
-  }
-  .stars{white-space:pre; text-align:center; letter-spacing:1px}
-  .title{font-weight:700}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.25 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+  .page{max-width:900px;margin:28px auto;padding:0 16px}
+  .stars{white-space:pre;text-align:center;letter-spacing:1px}
+  .title{font-weight:700;text-align:center}
   .section{margin:14px 0 0}
-  .row{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    flex-wrap:wrap;
-    margin:4px 0;
-  }
+  .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0}
   .label{min-width:160px}
-  .dash{white-space:pre; color:var(--muted)}
-  input[type="text"], input[type="number"]{
-    border:none;
-    border-bottom:1px solid var(--line);
-    background:transparent;
-    padding:2px 4px;
-    min-width:90px;
-    font:inherit;
-    color:var(--ink);
-    outline:none;
-  }
+  .dash{white-space:pre;color:var(--muted)}
+  input[type="text"],input[type="number"]{border:none;border-bottom:1px solid var(--line);background:transparent;padding:2px 4px;min-width:90px;font:inherit;color:var(--ink);outline:none}
   .wide{min-width:320px}
   .nm{min-width:100px}
-  .fl{min-width:70px}
-  .kts{min-width:70px}
-  .choice{display:flex; gap:14px; align-items:center}
-  .choice label{display:inline-flex; align-items:center; gap:6px; cursor:pointer}
-  .hr{height:1px; background:#000; opacity:.9; margin:10px 0}
-  .btns{display:flex; justify-content:flex-end; gap:10px; margin:10px 0 0}
-  button{
-    border:1px solid #000;
-    background:#f3f3f3;
-    padding:8px 14px;
-    font:inherit;
-    cursor:pointer;
-  }
+  .fl,.kts{min-width:70px}
+  .choice{display:flex;gap:14px;align-items:center}
+  .choice label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+  .btns{display:flex;justify-content:flex-end;gap:10px;margin:10px 0 0}
+  button{border:1px solid #000;background:#f3f3f3;padding:8px 14px;font:inherit;cursor:pointer}
+  #printPage{display:none}
   @media print{
-    .btns{display:none !important}
-    body{margin:0}
-    .page{margin:0; padding:0 12px}
-    input[type="text"], input[type="number"]{border-color:#000}
+    body{margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .page{display:none}
+    #printPage{display:block;background:#000;color:#fff;min-height:100vh;padding:24px}
+    .p-title{text-align:center;font-weight:700;margin:0 0 12px}
+    .p-stars{white-space:pre;text-align:center;margin:0 0 8px}
+    .p-line{display:flex;gap:10px;margin:2px 0}
+    .p-head{margin:14px 0 4px;font-weight:700}
   }
 </style>
 </head>
 <body>
   <div class="page" id="formRoot">
 <pre class="stars">************************************************************</pre>
-<div class="title" style="text-align:center">SOUTHWEST DISPATCH RELEASE</div>
+<div class="title">SOUTHWEST DISPATCH RELEASE</div>
 <pre class="stars">************************************************************</pre>
 
 <div class="section"><strong>FLIGHT INFORMATION</strong></div>
@@ -149,35 +119,128 @@
 <div class="row"><div class="label">Diversion:</div><input type="text" id="diversion" placeholder="______"></div>
 <div class="row"><div class="label">QRH:</div><span>Verified on board</span></div>
 
-<pre class="stars">************************************************************</pre>
-<div class="title" style="text-align:center">DISPATCH RELEASE COMPLETE</div>
-<pre class="stars">************************************************************</pre>
-
 <div class="btns">
   <button id="clear">Clear</button>
   <button id="printBtn">Print</button>
 </div>
 </div>
 
+<div id="printPage">
+  <div class="p-stars">************************************************************</div>
+  <div class="p-title">SOUTHWEST DISPATCH RELEASE</div>
+  <div class="p-stars">************************************************************</div>
+
+  <div class="p-head">FLIGHT INFORMATION</div>
+  <div class="p-line">Flight No: <span id="p_flightNo"></span></div>
+  <div class="p-line">Date: <span id="p_date"></span></div>
+  <div class="p-line">Aircraft: B737-800 <span id="p_aircraftTail"></span></div>
+  <div class="p-line">Callsign: <span id="p_callsign"></span></div>
+
+  <div class="p-head">ROUTE</div>
+  <div class="p-line">Origin: <span id="p_origin"></span></div>
+  <div class="p-line">Destination: <span id="p_destination"></span></div>
+  <div class="p-line">Alternate: <span id="p_alternate"></span></div>
+  <div class="p-line">Route: <span id="p_route"></span></div>
+  <div class="p-line">Distance: <span id="p_distance"></span> NM</div>
+  <div class="p-line">Cruise Alt: FL<span id="p_cruise"></span></div>
+
+  <div class="p-head">TIMES &amp; FUEL</div>
+  <div class="p-line">Block Time: <span id="p_blockTime"></span></div>
+  <div class="p-line">Taxi Fuel: <span id="p_taxiFuel"></span></div>
+  <div class="p-line">Trip Fuel: <span id="p_tripFuel"></span></div>
+  <div class="p-line">Reserve Fuel: <span id="p_reserveFuel"></span></div>
+  <div class="p-line">Block Fuel: <span id="p_blockFuel"></span></div>
+
+  <div class="p-head">OPERATIONAL DATA</div>
+  <div class="p-line">Weather: <span id="p_weather"></span></div>
+  <div class="p-line">Runway Condition: <span id="p_rwcond"></span></div>
+  <div class="p-line">Turbulence: <span id="p_turb"></span></div>
+  <div class="p-line">Failures: <span id="p_fail"></span></div>
+
+  <div class="p-head">CREW ASSIGNMENT</div>
+  <div class="p-line">Captain (PF): <span id="p_captain"></span></div>
+  <div class="p-line">First Officer(PM): <span id="p_fo"></span></div>
+  <div class="p-line">Cabin Crew: <span id="p_cabin"></span></div>
+
+  <div class="p-head">TAKEOFF DATA</div>
+  <div class="p-line">Departure Runway: <span id="p_depRw"></span></div>
+  <div class="p-line">Flaps: <span id="p_flaps"></span></div>
+  <div class="p-line">V1: <span id="p_v1"></span> kts</div>
+  <div class="p-line">VR: <span id="p_vr"></span> kts</div>
+  <div class="p-line">V2: <span id="p_v2"></span> kts</div>
+
+  <div class="p-head">ARRIVAL DATA</div>
+  <div class="p-line">STAR: <span id="p_star"></span></div>
+  <div class="p-line">Arrival Runway: <span id="p_arrRw"></span></div>
+  <div class="p-line">Approach: <span id="p_appch"></span></div>
+  <div class="p-line">Missed Approach: <span id="p_missed"></span></div>
+
+  <div class="p-head">CREW BRIEFING – EMERGENCY/ABNORMAL</div>
+  <div class="p-line">RTO Criteria: Below <span id="p_rtoKts"></span> kts for fire, failure, or unsafe</div>
+  <div class="p-line">Diversion: <span id="p_diversion"></span></div>
+  <div class="p-stars" style="margin-top:12px">************************************************************</div>
+  <div class="p-title">DISPATCH RELEASE COMPLETE</div>
+  <div class="p-stars">************************************************************</div>
+</div>
+
 <script>
   const failNone=document.getElementById('failNone');
   const failBoxes=[...document.querySelectorAll('input[name="fail"]')].filter(x=>x!==failNone);
-  failNone.addEventListener('change',e=>{
-    if(e.target.checked){ failBoxes.forEach(cb=>cb.checked=false); }
-  });
-  failBoxes.forEach(cb=>{
-    cb.addEventListener('change',()=>{
-      if(cb.checked){ failNone.checked=false; }
-    });
-  });
-  document.getElementById('printBtn').addEventListener('click',()=>window.print());
+  failNone.addEventListener('change',e=>{if(e.target.checked){failBoxes.forEach(cb=>cb.checked=false)}})
+  failBoxes.forEach(cb=>cb.addEventListener('change',()=>{if(cb.checked){failNone.checked=false}}))
+
+  function val(id){return (document.getElementById(id).value||'').trim()}
+  function radio(name){const el=document.querySelector(`input[name="${name}"]:checked`);return el?el.value:''}
+  function failures(){
+    const picks=[...document.querySelectorAll('input[name="fail"]:checked')].map(x=>x.value)
+    if(picks.includes('None')||picks.length===0){return 'None'}
+    return picks.join(' / ')
+  }
+  function fillPrint(){
+    document.getElementById('p_flightNo').textContent=val('flightNo')
+    document.getElementById('p_date').textContent=val('date')
+    document.getElementById('p_aircraftTail').textContent=val('aircraftTail')
+    document.getElementById('p_callsign').textContent=val('callsign')
+    document.getElementById('p_origin').textContent=val('origin')
+    document.getElementById('p_destination').textContent=val('destination')
+    document.getElementById('p_alternate').textContent=val('alternate')
+    document.getElementById('p_route').textContent=val('route')
+    document.getElementById('p_distance').textContent=val('distance')
+    document.getElementById('p_cruise').textContent=val('cruise')
+    document.getElementById('p_blockTime').textContent=val('blockTime')
+    document.getElementById('p_taxiFuel').textContent=val('taxiFuel')
+    document.getElementById('p_tripFuel').textContent=val('tripFuel')
+    document.getElementById('p_reserveFuel').textContent=val('reserveFuel')
+    document.getElementById('p_blockFuel').textContent=val('blockFuel')
+    document.getElementById('p_weather').textContent=val('weather')
+    document.getElementById('p_rwcond').textContent=radio('rwcond')
+    document.getElementById('p_turb').textContent=radio('turb')
+    document.getElementById('p_fail').textContent=failures()
+    document.getElementById('p_captain').textContent=val('captain')
+    document.getElementById('p_fo').textContent=val('fo')
+    document.getElementById('p_cabin').textContent=val('cabin')
+    document.getElementById('p_depRw').textContent=val('depRw')
+    document.getElementById('p_flaps').textContent=val('flaps')
+    document.getElementById('p_v1').textContent=val('v1')
+    document.getElementById('p_vr').textContent=val('vr')
+    document.getElementById('p_v2').textContent=val('v2')
+    document.getElementById('p_star').textContent=val('star')
+    document.getElementById('p_arrRw').textContent=val('arrRw')
+    document.getElementById('p_appch').textContent=radio('appch')
+    document.getElementById('p_missed').textContent=val('missed')
+    document.getElementById('p_rtoKts').textContent=val('rtoKts')
+    document.getElementById('p_diversion').textContent=val('diversion')
+  }
+
+  document.getElementById('printBtn').addEventListener('click',()=>{fillPrint();window.print()})
+
   document.getElementById('clear').addEventListener('click',()=>{
-    document.querySelectorAll('input[type="text"],input[type="number"]').forEach(i=>i.value='');
-    document.querySelectorAll('input[type="checkbox"]').forEach(i=>i.checked=false);
-    document.querySelector('input[name="rwcond"][value="Dry"]').checked=true;
-    document.querySelector('input[name="turb"][value="Expected"]').checked=true;
-    document.querySelector('input[name="appch"][value="ILS"]').checked=true;
-  });
+    document.querySelectorAll('input[type="text"],input[type="number"]').forEach(i=>i.value='')
+    document.querySelectorAll('input[type="checkbox"]').forEach(i=>i.checked=false)
+    document.querySelector('input[name="rwcond"][value="Dry"]').checked=true
+    document.querySelector('input[name="turb"][value="Expected"]').checked=true
+    document.querySelector('input[name="appch"][value="ILS"]').checked=true
+  })
 </script>
 </body>
 </html>
