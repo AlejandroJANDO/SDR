@@ -11,7 +11,7 @@
   body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.25 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
   .page{max-width:900px;margin:28px auto;padding:0 16px}
   .stars{white-space:pre;text-align:center;letter-spacing:1px}
-  .title{font-weight:700;text-align:center}
+  .title{text-align:center;font-weight:700}
   .section{margin:14px 0 0}
   .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0}
   .label{min-width:160px}
@@ -25,41 +25,26 @@
   .btns{display:flex;justify-content:flex-end;gap:10px;margin:10px 0 0}
   button{border:1px solid #000;background:#f3f3f3;padding:8px 14px;font:inherit;cursor:pointer}
   #printPage{display:none}
-  @media print {
-  @page {
-    size: A4 portrait;  
-    margin: 0;          
-  }
 
-  body {
-    margin: 0;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+  @media print{
+    @page{size:letter portrait;margin:0}
+    body{margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .page{display:none}
+    #printPage{
+      display:block;
+      background:#000;
+      color:#fff;
+      min-height:100vh;
+      padding:14px 18px;
+      font-size:13px;
+      line-height:1.2;
+      page-break-inside:avoid
+    }
+    .p-title{text-align:center;font-weight:700;margin:0 0 8px;font-size:15px}
+    .p-stars{white-space:pre;text-align:center;margin:0 0 6px}
+    .p-head{margin:8px 0 3px;font-weight:700;text-decoration:underline}
+    .p-line{display:flex;gap:6px;margin:1px 0}
   }
-
-  .page { display: none }     
-  #printPage {
-    display: block;
-    background: #000;
-    color: #fff;
-    min-height: 100vh;
-    padding: 18px;
-    font-size: 13px;          
-    line-height: 1.2;
-    page-break-inside: avoid;
-  }
-
-  .p-title {
-    text-align: center;
-    font-weight: 700;
-    margin: 0 0 8px;
-    font-size: 15px;
-  }
-  .p-stars { white-space: pre; text-align: center; margin: 0 0 6px }
-  .p-line { display: flex; gap: 6px; margin: 1px 0 }
-  .p-head { margin: 8px 0 3px; font-weight: 700; text-decoration: underline }
-}
-
 </style>
 </head>
 <body>
@@ -204,7 +189,8 @@
   <div class="p-head">CREW BRIEFING – EMERGENCY/ABNORMAL</div>
   <div class="p-line">RTO Criteria: Below <span id="p_rtoKts"></span> kts for fire, failure, or unsafe</div>
   <div class="p-line">Diversion: <span id="p_diversion"></span></div>
-  <div class="p-stars" style="margin-top:12px">************************************************************</div>
+
+  <div class="p-stars" style="margin-top:10px">************************************************************</div>
   <div class="p-title">DISPATCH RELEASE COMPLETE</div>
   <div class="p-stars">************************************************************</div>
 </div>
@@ -258,7 +244,10 @@
     document.getElementById('p_diversion').textContent=val('diversion')
   }
 
-  document.getElementById('printBtn').addEventListener('click',()=>{fillPrint();window.print()})
+  document.getElementById('printBtn').addEventListener('click',()=>{
+    fillPrint();
+    setTimeout(()=>window.print(),50);
+  })
 
   document.getElementById('clear').addEventListener('click',()=>{
     document.querySelectorAll('input[type="text"],input[type="number"]').forEach(i=>i.value='')
