@@ -25,15 +25,41 @@
   .btns{display:flex;justify-content:flex-end;gap:10px;margin:10px 0 0}
   button{border:1px solid #000;background:#f3f3f3;padding:8px 14px;font:inherit;cursor:pointer}
   #printPage{display:none}
-  @media print{
-    body{margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .page{display:none}
-    #printPage{display:block;background:#000;color:#fff;min-height:100vh;padding:24px}
-    .p-title{text-align:center;font-weight:700;margin:0 0 12px}
-    .p-stars{white-space:pre;text-align:center;margin:0 0 8px}
-    .p-line{display:flex;gap:10px;margin:2px 0}
-    .p-head{margin:14px 0 4px;font-weight:700}
+  @media print {
+  @page {
+    size: A4 portrait;  
+    margin: 0;          
   }
+
+  body {
+    margin: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page { display: none }     
+  #printPage {
+    display: block;
+    background: #000;
+    color: #fff;
+    min-height: 100vh;
+    padding: 18px;
+    font-size: 13px;          
+    line-height: 1.2;
+    page-break-inside: avoid;
+  }
+
+  .p-title {
+    text-align: center;
+    font-weight: 700;
+    margin: 0 0 8px;
+    font-size: 15px;
+  }
+  .p-stars { white-space: pre; text-align: center; margin: 0 0 6px }
+  .p-line { display: flex; gap: 6px; margin: 1px 0 }
+  .p-head { margin: 8px 0 3px; font-weight: 700; text-decoration: underline }
+}
+
 </style>
 </head>
 <body>
